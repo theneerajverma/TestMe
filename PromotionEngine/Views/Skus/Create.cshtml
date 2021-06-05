@@ -1,0 +1,50 @@
+﻿@model IList<PromotionEngine.Models.SkuVM>
+
+@{
+    ViewBag.Title = "Check Promotion";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>SKU</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (Model != null)
+        {
+            for (var i = 0; i < Model.Count; i++)
+            {
+                <div class="form-group">
+                    <div class="col-md-1">
+                        @Html.DisplayFor(m => Model[i].SkuId)
+                        @Html.HiddenFor(m => Model[i].SkuId)
+                        @Html.HiddenFor(m => Model[i].Price)
+                    </div>
+                    <div class="col-md-11">
+                        @Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form-control" })
+                    </div>
+                </div>
+            }
+        }
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="submit" value="Check Promotion" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div class="col-md-2">
+    @if (TempData["FinalAmount"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["FinalAmount"]
+        </div>
+    }
+</div>
+<br /><br /><br />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
